@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserAuthenticationService {
-    String login(String username, String password) throws BadCredentialsException;
+    String login(String userName, String password) throws BadCredentialsException;
 
     Client authenticateByToken(String token) throws AuthenticationException;
 
-    void logout(String username);
+    void logout(String userName);
 
 }

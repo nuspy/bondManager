@@ -21,7 +21,7 @@ public class ClientService {
         return clientRepository.findByToken(token);
     }
 
-    public Optional<Client> getByUsername(String username) {
-        return clientRepository.findByUsername(username);
+    public Optional<Client> getByUserName(String username) {
+        return clientRepository.findByUserName(username);
     }
 }
