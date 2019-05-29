@@ -20,7 +20,7 @@ public class Client {
     private String userName;
 
     @Column(nullable = false)
-    private String passwordHash;
+    private String password;
 
     @Column(nullable = false)
     private String email;
