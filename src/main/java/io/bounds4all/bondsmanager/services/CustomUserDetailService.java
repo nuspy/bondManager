@@ -36,7 +36,7 @@ public class CustomUserDetailService implements UserDetailsService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         Role clientRole = roleRepository.findByRole("CLIENT");
-        List<Role> userRoles = new ArrayList();
+        Set<Role> userRoles = new HashSet<>();
         userRoles.add(clientRole);
         user.setRoles(userRoles);
         userRepository.save(user);
@@ -55,7 +55,7 @@ public class CustomUserDetailService implements UserDetailsService {
         }
     }
 
-    private List<GrantedAuthority> getUserAuthority(List<Role> userRoles) {
+    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
         Set<GrantedAuthority> roles = new HashSet<>();
         userRoles.forEach((role) -> {
             roles.add(new SimpleGrantedAuthority(role.getRole()));

@@ -1,5 +1,6 @@
 package io.bounds4all.bondsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class Role {
     private String role;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private List<User> users;
 
 }

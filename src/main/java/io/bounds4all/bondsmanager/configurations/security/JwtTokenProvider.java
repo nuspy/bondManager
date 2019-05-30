@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class JwtTokenProvider {
@@ -32,17 +33,18 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, List<Role> set) {
+    public String createToken(String username, Set<Role> set) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", set);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
-        return Jwts.builder()//
+         JwtBuilder builder = Jwts.builder()//
                 .setClaims(claims)//
                 .setIssuedAt(now)//
                 .setExpiration(validity)//
-                .signWith(SignatureAlgorithm.HS256, secretKey)//
-                .compact();
+                .signWith(SignatureAlgorithm.HS256, secretKey);//
+        String result = builder.compact();
+        return result;
     }
 
     public Authentication getAuthentication(String token) {
