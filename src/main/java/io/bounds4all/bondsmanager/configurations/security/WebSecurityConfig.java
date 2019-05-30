@@ -49,10 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/h2/**").permitAll()
+
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/products/**").hasAuthority("ADMIN").anyRequest().authenticated().and().csrf()
                 .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()).and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                .apply(new JwtConfigurer(jwtTokenProvider)).and()
+                .cors().disable();
+        //To visualize H2 Console
+        http.headers().frameOptions().disable();
     }
 
     @Bean
