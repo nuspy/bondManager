@@ -17,9 +17,27 @@ public class Emission {
     private long id;
 
     @Column(nullable = false)
-    protected Date emissionDate;
+    private String emissionName;
+
+    @Column(nullable = false)
+    private double unitValue;
+
+    @Column(nullable = false)
+    private Date emissionDate;
 
     @OneToMany(mappedBy = "emission")
     private List<Bond> emittedBonds;
+
+    @Column
+    private double defaultCoupon;
+
+    @Column
+    private int maxPurchasePerDay;
+
+    @Column
+    private int maxUncontrolledPurchase;
+
+    @Column
+    private int minTerm;
 
 }

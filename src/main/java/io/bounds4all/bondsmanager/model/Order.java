@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Order {
     private long id;
 
     @Column(nullable = false)
-    private Date purchaseDate;
+    private LocalDateTime purchaseDateTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

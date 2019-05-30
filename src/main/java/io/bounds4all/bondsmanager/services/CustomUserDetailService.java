@@ -12,11 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
-
-import static jdk.internal.net.http.common.Utils.encode;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {

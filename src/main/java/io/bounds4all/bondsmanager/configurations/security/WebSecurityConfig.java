@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/h2/**").permitAll()
                 .antMatchers("/api/auth/register").permitAll()
+                .antMatchers("/api/offer").permitAll()
 
                 .antMatchers("/api/purchase/**").hasAuthority("CLIENT").anyRequest().authenticated()
                 .antMatchers("/api/emission/**").hasAuthority("CLIENT").anyRequest().authenticated().and().csrf()
