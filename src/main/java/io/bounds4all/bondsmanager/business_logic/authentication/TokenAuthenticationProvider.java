@@ -1,6 +1,6 @@
 package io.bounds4all.bondsmanager.business_logic.authentication;
 
-import io.bounds4all.bondsmanager.services.UserAuthenticationService;
+import io.bounds4all.bondsmanager.services.ClientAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Component
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     @Autowired
-    private UserAuthenticationService userAuthenticationService;
+    private ClientAuthenticationService clientAuthenticationService;
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
@@ -29,7 +29,7 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
         return Optional
                 .ofNullable(token)
                 .flatMap(t ->
-                        Optional.of(userAuthenticationService.authenticateByToken(String.valueOf(t)))
+                        Optional.of(clientAuthenticationService.authenticateByToken(String.valueOf(t)))
                                 .map(client -> User.builder()
                                         .username(client.getUserName())
                                         .password(client.getPassword())

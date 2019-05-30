@@ -1,7 +1,7 @@
 package io.bounds4all.bondsmanager.business_logic.authentication;
 
 import io.bounds4all.bondsmanager.services.ClientService;
-import io.bounds4all.bondsmanager.services.UserAuthenticationService;
+import io.bounds4all.bondsmanager.services.ClientAuthenticationService;
 import io.bounds4all.bondsmanager.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class UUIDAuthenticationService implements UserAuthenticationService {
+public class UUIDAuthenticationService implements ClientAuthenticationService {
     @Autowired
     private ClientService clientService;
 

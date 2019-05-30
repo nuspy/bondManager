@@ -2,7 +2,6 @@ package io.bounds4all.bondsmanager.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.util.List;
