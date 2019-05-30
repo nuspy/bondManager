@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "order_table")
 public class Order {
 
     @Id

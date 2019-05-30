@@ -9,19 +9,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "role_table")
 public class Role {
 
     @Id
     @GeneratedValue
     private long id;
 
+    @Column
     private String role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
 }
