@@ -1,4 +1,4 @@
-package io.bounds4all.bondsmanager.configurations;
+package io.bounds4all.bondsmanager.security;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
+
 
 public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private static final String AUTHORIZATION = "Authorization";

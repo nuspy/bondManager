@@ -9,14 +9,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-public class Client {
+public class User {
 
     @Id
     @GeneratedValue
     private long id;
 
     @Column(nullable = false)
-    private String userName;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -24,7 +24,7 @@ public class Client {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "user")
     private List <Purchase> purchases;
 
     @Column

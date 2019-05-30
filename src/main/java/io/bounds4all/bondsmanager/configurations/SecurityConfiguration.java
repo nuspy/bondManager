@@ -1,6 +1,9 @@
 package io.bounds4all.bondsmanager.configurations;
 
-import io.bounds4all.bondsmanager.business_logic.authentication.TokenAuthenticationProvider;
+
+import io.bounds4all.bondsmanager.security.NoRedirectStrategy;
+import io.bounds4all.bondsmanager.security.TokenAuthenticationFilter;
+import io.bounds4all.bondsmanager.security.TokenAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +32,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
             new AntPathRequestMatcher("/register"),
-            new AntPathRequestMatcher("/login")
+            new AntPathRequestMatcher("/login"),
+            new AntPathRequestMatcher("/swagger-ui.html"),
+            new AntPathRequestMatcher("/v2/api-docs")
     );
     private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 

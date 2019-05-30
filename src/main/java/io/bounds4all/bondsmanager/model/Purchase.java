@@ -19,7 +19,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client;
+    private User user;
 
     @OneToMany(mappedBy = "purchase")
     private List <Bond> bonds;

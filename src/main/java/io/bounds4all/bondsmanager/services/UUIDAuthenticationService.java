@@ -1,43 +1,43 @@
-package io.bounds4all.bondsmanager.business_logic.authentication;
+package io.bounds4all.bondsmanager.services;
 
-import io.bounds4all.bondsmanager.services.ClientService;
-import io.bounds4all.bondsmanager.services.ClientAuthenticationService;
-import io.bounds4all.bondsmanager.model.Client;
+import io.bounds4all.bondsmanager.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Profile({"default", "uuid"})
 @Service
-public class UUIDAuthenticationService implements ClientAuthenticationService {
+public class UUIDAuthenticationService implements UserAuthenticationService {
     @Autowired
-    private ClientService clientService;
+    private UserService userService;
 
     @Override
     public String login(String username, String password) {
-        return clientService.getByUserName(username)
+        return userService.getByUsername(username)
                 .filter(u -> u.getPassword().equals(password))
                 .map(u -> {
                     u.setToken(UUID.randomUUID().toString());
-                    clientService.save(u);
+                    userService.save(u);
                     return u.getToken();
                 })
                 .orElseThrow(() -> new BadCredentialsException("Invalid username or password."));
     }
 
     @Override
-    public Client authenticateByToken(String token) {
-        return clientService.getByToken(token)
+    public User authenticateByToken(String token) {
+        return userService.getByToken(token)
                 .orElseThrow(() -> new BadCredentialsException("Token not found."));
     }
 
     @Override
     public void logout(String username) {
-        clientService.getByUserName(username)
+        userService.getByUsername(username)
                 .ifPresent(u -> {
                     u.setToken(null);
-                    clientService.save(u);
+                    userService.save(u);
                 });
     }
 }
