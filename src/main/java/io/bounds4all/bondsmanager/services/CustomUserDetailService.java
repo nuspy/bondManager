@@ -28,16 +28,16 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
-    public Optional<User> findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-        Optional<Role> clientRole = roleRepository.findByRole("CLIENT");
-        List <Role> userRoles = new ArrayList();
-        clientRole.ifPresent(role -> userRoles.add(role));
+        Role clientRole = roleRepository.findByRole("CLIENT");
+        List<Role> userRoles = new ArrayList();
+        userRoles.add(clientRole);
         user.setRoles(userRoles);
         userRepository.save(user);
     }
@@ -46,7 +46,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(email).get();
+        User user = userRepository.findByEmail(email);
         if(user != null) {
             List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
             return buildUserForAuthentication(user, authorities);

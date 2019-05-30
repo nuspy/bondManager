@@ -43,7 +43,7 @@ public class AuthController {
         try {
             String username = data.getEmail();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-            String token = jwtTokenProvider.createToken(username, this.users.findByEmail(username).get().getRoles());
+            String token = jwtTokenProvider.createToken(username, this.users.findByEmail(username).getRoles());
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
             model.put("token", token);
@@ -56,7 +56,7 @@ public class AuthController {
     @SuppressWarnings("rawtypes")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody User user) {
-        User userExists = userService.findUserByEmail(user.getEmail()).get();
+        User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null) {
             throw new BadCredentialsException("User with username: " + user.getEmail() + " already exists");
         }
