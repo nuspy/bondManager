@@ -25,12 +25,20 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user")
-    private List <Purchase> purchases;
+    private List <Order> orders;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Role> roles;
 
     @Column
     private boolean convalidated;
 
     @Column
     private String token;
+
+    @Column
+    private boolean enabled;
+
+
 
 }
