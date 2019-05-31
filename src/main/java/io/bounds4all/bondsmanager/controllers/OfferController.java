@@ -14,9 +14,14 @@ public class OfferController {
     @Autowired
     OfferService offerService;
 
-    @RequestMapping(method= RequestMethod.POST, value="/api/offer", headers = "Authorization")
+    @RequestMapping(method= RequestMethod.POST, value="/api/offer")
     public OrderDto getOffer(@RequestBody OrderDto order) throws Exception {
         OrderDto response = offerService.calculateOffer(order);
         return response;
+    }
+
+    @RequestMapping(method= RequestMethod.POST, value="/api/offer")
+    public int getAvailableBondQuantity(long emissionId){
+        return offerService.getAvailableBondQuantity(emissionId);
     }
 }

@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web)  {
         web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**");
         // ignore swagger
         web.ignoring().mvcMatchers("/swagger-ui.html/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs", "/h2/**/");
@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/offer").permitAll()
 
                 .antMatchers("/api/purchase/**").hasAuthority("CLIENT").anyRequest().authenticated()
+                .antMatchers("/api/order/**").hasAuthority("CLIENT").anyRequest().authenticated()
                 .antMatchers("/api/emission/**").hasAuthority("CLIENT").anyRequest().authenticated().and().csrf()
 
                 .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()).and()

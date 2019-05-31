@@ -25,7 +25,7 @@ public class Emission {
     @Column(nullable = false)
     private Date emissionDate;
 
-    @OneToMany(mappedBy = "emission")
+    @OneToMany(mappedBy = "emission",fetch = FetchType.LAZY)
     private List<Bond> emittedBonds;
 
     @Column

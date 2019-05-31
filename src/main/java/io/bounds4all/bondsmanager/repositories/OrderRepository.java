@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByEmission(Emission emission);
-    List<Order> findByEmissionAndUser(Emission emission, User user);
+
+    List<Order> findByUser( User user);
 }

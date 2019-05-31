@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 public class OrderDto {
     private Emission emission;
-    private double amount;
+    private int amount;
+    private int value;
     private int monthsLenght;
     private double coupon;
     private Order order;

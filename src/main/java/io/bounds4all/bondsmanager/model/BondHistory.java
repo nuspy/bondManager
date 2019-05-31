@@ -14,7 +14,10 @@ public class BondHistory {
     @GeneratedValue
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "bond_id")
-    protected Bond bond;
+    private Bond bond;
+
+    @Column
+    private double coupon;
 }
