@@ -18,7 +18,6 @@ public class OrderController {
     @Autowired
     UserService userService;
 
-
     @RequestMapping(method= RequestMethod.POST, value="/api/order/", headers = "Authorization")
     public OrderDto makeOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String token) throws Exception {
 

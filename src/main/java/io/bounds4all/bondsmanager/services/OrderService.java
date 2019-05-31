@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class OrderService {
     @Autowired
     BondHistoryRepository bondHistoryRepository;
 
+    @Transactional
     public OrderDto putOrder(OrderDto order, User user) throws Exception {
         Emission emission = offerService.checkOffer(order);
         if (!orderConditionCheck.dailyLimitCheck(order, emission, user)) {
@@ -76,9 +78,10 @@ public class OrderService {
         newOrder.setBonds(purchasedBonds);
 
 
-       newOrder =  orderRepository.save(newOrder);
+        newOrder =  orderRepository.save(newOrder);
 
         responseOrderDto.setOrder(newOrder);
+        bondRepository.flush();
 
         return responseOrderDto;
     }

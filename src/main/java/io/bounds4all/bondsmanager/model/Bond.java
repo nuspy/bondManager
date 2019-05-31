@@ -1,5 +1,6 @@
 package io.bounds4all.bondsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,12 +28,14 @@ public class Bond {
     @JoinColumn(name = "order_id")
     @Getter
     @Setter
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "emission_id")
     @Getter
     @Setter
+    @JsonIgnore
     private Emission emission;
 
 }

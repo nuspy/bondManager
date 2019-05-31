@@ -1,5 +1,6 @@
 package io.bounds4all.bondsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)

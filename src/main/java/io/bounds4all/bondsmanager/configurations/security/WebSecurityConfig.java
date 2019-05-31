@@ -1,7 +1,6 @@
 package io.bounds4all.bondsmanager.configurations.security;
 
 import io.bounds4all.bondsmanager.services.CustomUserDetailService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,10 +50,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2/**").permitAll()
                 .antMatchers("/api/auth/register").permitAll()
                 .antMatchers("/api/offer").permitAll()
+                .antMatchers("/api/emission/**").permitAll()
 
                 .antMatchers("/api/purchase/**").hasAuthority("CLIENT").anyRequest().authenticated()
                 .antMatchers("/api/order/**").hasAuthority("CLIENT").anyRequest().authenticated()
-                .antMatchers("/api/emission/**").hasAuthority("CLIENT").anyRequest().authenticated().and().csrf()
+
+                .antMatchers("/api/admin/emission/**").hasAuthority("ADMIN").anyRequest().authenticated()
+
+                .and().csrf()
 
                 .disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint()).and()
                 .apply(new JwtConfigurer(jwtTokenProvider)).and()
