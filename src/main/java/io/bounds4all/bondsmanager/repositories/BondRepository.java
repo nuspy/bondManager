@@ -14,6 +14,9 @@ import java.util.List;
 
 @Repository
 public interface BondRepository extends JpaRepository<Bond, Long> {
+
+    List<Bond> findAllByIdIn(List<Long> ids);
+
     List<Bond> findByEmission(Emission emission);
     List<Bond> findByEmissionAndOrderNotNull(Emission emission);
     Page<Bond> findByEmissionAndOrderNotNull(Emission emission, Pageable pageable);

@@ -69,6 +69,7 @@ public class OrderService {
             bondHistory.setTermEndDate(LocalDateTime.now());
             bondHistory.setInsertDate(Calendar.getInstance().getTime());
             bondHistory.setTermLenghtMonts(order.getMonthsLenght());
+            bondHistory.setBond(b);
             b.setBondHistory(bondHistories);
             purchasedBonds.add(b);
         }
@@ -98,25 +99,32 @@ public class OrderService {
         return result;
     }
 
-    public Bond changeBondTerm(OrderDto order, User user) throws Exception {
+    public List<Bond> changeBondTerm(OrderDto order, User user) throws Exception {
 
-        Bond bond = bondRepository.getOne(order.getOrder().getId());
-        if (!bond.getOrder().getUser().equals(user)){
-            throw new Exception("Bond associated to another user.");
+        List<Bond> bondsToModify = bondRepository.findAllByIdIn(order.getBondToModify());
+
+        for (Bond bond : bondsToModify) {
+            if (!bond.getOrder().getUser().equals(user)) {
+                throw new Exception("Bond associated to another user.");
+            }
+
+            BondHistory lastBond = getBondHistory(bond);
+
+            BondHistory newBondHistory = new BondHistory();
+            newBondHistory.setBond(lastBond.getBond());
+            newBondHistory.setInsertDate(Calendar.getInstance().getTime());
+            newBondHistory.setCoupon(offerService.calculateInitialCoupon(order, lastBond.getBond().getEmission()).getCoupon());
+            newBondHistory.setTermEndDate(lastBond.getBond().getOrder().getPurchaseDateTime().plusMonths(order.getMonthsLenght()));
+            newBondHistory.setTermLenghtMonts(order.getMonthsLenght());
+
+            bondHistoryRepository.save(newBondHistory);
+            assert (bond.getBondHistory().contains(newBondHistory));
+
         }
+        return bondsToModify;
 
-        BondHistory lastBond = getBondHistory(bond);
+        //Bond bond = bondRepository.getOne(order.getOrder().getId());
 
-        BondHistory newBondHistory = new BondHistory();
-        newBondHistory.setBond(lastBond.getBond());
-        newBondHistory.setInsertDate(Calendar.getInstance().getTime());
-        newBondHistory.setCoupon(offerService.calculateInitialCoupon(order, lastBond.getBond().getEmission()).getCoupon());
-        newBondHistory.setTermEndDate(lastBond.getBond().getOrder().getPurchaseDateTime().plusMonths(order.getMonthsLenght()));
-        newBondHistory.setTermLenghtMonts(order.getMonthsLenght());
-
-        bondHistoryRepository.save(newBondHistory);
-        assert (bond.getBondHistory().contains(newBondHistory));
-        return bondRepository.getOne(order.getOrder().getId());
 
     }
 

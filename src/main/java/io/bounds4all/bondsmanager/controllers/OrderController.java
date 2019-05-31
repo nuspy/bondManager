@@ -37,10 +37,10 @@ public class OrderController {
     }
 
     @RequestMapping(method= RequestMethod.PUT, value="/api/order/changeBondTerm", headers = "Authorization")
-    public Bond changeBondTerm (@RequestHeader("Authorization") String token, @RequestBody OrderDto order) throws Exception {
+    public List<Bond> changeBondTerm(@RequestHeader("Authorization") String token, @RequestBody OrderDto order) throws Exception {
 
         User user = userService.findByToken(token);
-        Bond response = orderService.changeBondTerm(order, user);
+        List<Bond> response = orderService.changeBondTerm(order, user);
         return response;
     }
 
