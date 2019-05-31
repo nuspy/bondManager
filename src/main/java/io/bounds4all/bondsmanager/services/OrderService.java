@@ -38,8 +38,8 @@ public class OrderService {
             throw new Exception("The operation amount exceed limit for nightly orders");
         }
 
-        Pageable orderAmount = new PageRequest(0, order.getAmount());
-        Page<Bond> bondsToAssign = bondRepository.findByEmissionAndOrderNotNull(emission, orderAmount);
+        Pageable orderAmount = PageRequest.of(0, order.getAmount());
+        Page<Bond> bondsToAssign = bondRepository.findByEmissionAndOrderNull(emission, orderAmount);
 
         if (bondsToAssign.getSize() != order.getAmount()){
             throw new Exception("Another order has been placed and the amout of available bond has diminuished");
