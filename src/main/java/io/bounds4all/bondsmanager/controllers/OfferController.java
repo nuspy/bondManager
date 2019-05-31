@@ -20,7 +20,7 @@ public class OfferController {
         return response;
     }
 
-    @RequestMapping(method= RequestMethod.POST, value="/api/offer")
+    @RequestMapping(method= RequestMethod.GET, value="/api/offer")
     public int getAvailableBondQuantity(long emissionId){
         return offerService.getAvailableBondQuantity(emissionId);
     }

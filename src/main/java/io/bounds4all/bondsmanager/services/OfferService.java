@@ -60,6 +60,6 @@ public class OfferService {
 
     public int getAvailableBondQuantity(long emissionId) {
         Emission emission = emissionRepository.getOne(emissionId);
-        return bondRepository.findByEmissionAndOrderNotNull(emission).size();
+        return bondRepository.findByEmissionAndOrderNull(emission).size();
     }
 }

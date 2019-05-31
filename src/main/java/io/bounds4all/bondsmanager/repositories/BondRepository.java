@@ -9,12 +9,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 
 import javax.persistence.LockModeType;
+import java.util.Collection;
 import java.util.List;
 
 public interface BondRepository extends JpaRepository<Bond, Long> {
     List<Bond> findByEmission(Emission emission);
     List<Bond> findByEmissionAndOrderNotNull(Emission emission);
-    @Lock(LockModeType.PESSIMISTIC_READ)
     Page<Bond> findByEmissionAndOrderNotNull(Emission emission, Pageable pageable);
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    Page<Bond> findByEmissionAndOrderNull(Emission emission, Pageable pageable);
     List<Bond> findByEmissionAndOrder(Emission emission, Order order);
+    List<Object> findByEmissionAndOrderNull(Emission emission);
+
 }

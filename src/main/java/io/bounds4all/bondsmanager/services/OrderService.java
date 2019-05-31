@@ -69,4 +69,16 @@ public class OrderService {
 
         return responseOrderDto;
     }
+
+    public List<OrderDto> getAllOrdersForUser(User user) {
+
+        List<Order> oldOrders = orderRepository.findByUser(user);
+        List<OrderDto> result = new ArrayList<>();
+        oldOrders.stream().forEach(o -> {
+            OrderDto newOrderDto = new OrderDto();
+            newOrderDto.setOrder(o);
+            result.add(newOrderDto);
+        });
+        return result;
+    }
 }
