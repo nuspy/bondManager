@@ -2,11 +2,13 @@ package io.bounds4all.bondsmanager.controllers;
 
 import io.bounds4all.bondsmanager.model.Emission;
 import io.bounds4all.bondsmanager.repositories.EmissionRepository;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@Api(description = "Controller fot admin Ops")
 @RestController()
 public class AdminController {
 
@@ -17,7 +19,6 @@ public class AdminController {
         this.emissionRepository = emissionRepository;
     }
 
-    //Admin APIs
     @RequestMapping(method = RequestMethod.POST, value = "/api/admin/emission", headers = "Authorization")
     public long save(/*@RequestHeader("Authorization") String token,*/ @RequestBody Emission emission) {
         emissionRepository.save(emission);

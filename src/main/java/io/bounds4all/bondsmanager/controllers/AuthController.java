@@ -1,15 +1,11 @@
 package io.bounds4all.bondsmanager.controllers;
 
-import static org.springframework.http.ResponseEntity.ok;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import io.bounds4all.bondsmanager.configurations.security.JwtTokenProvider;
 import io.bounds4all.bondsmanager.dtos.AuthBody;
 import io.bounds4all.bondsmanager.model.User;
 import io.bounds4all.bondsmanager.repositories.UserRepository;
 import io.bounds4all.bondsmanager.services.CustomUserDetailService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
+@Api( description = "Controller for User login/register.")
 @RequestMapping("/api/auth")
 public class AuthController {
 
