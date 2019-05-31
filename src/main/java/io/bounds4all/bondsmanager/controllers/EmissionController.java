@@ -4,7 +4,6 @@ import io.bounds4all.bondsmanager.model.Emission;
 import io.bounds4all.bondsmanager.repositories.EmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.jvm.hotspot.memory.HeapBlock;
 
 import java.util.Optional;
 

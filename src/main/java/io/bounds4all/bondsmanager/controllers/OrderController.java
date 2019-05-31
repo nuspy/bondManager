@@ -1,8 +1,6 @@
 package io.bounds4all.bondsmanager.controllers;
 
 import io.bounds4all.bondsmanager.dtos.OrderDto;
-import io.bounds4all.bondsmanager.model.Emission;
-import io.bounds4all.bondsmanager.model.Order;
 import io.bounds4all.bondsmanager.model.User;
 import io.bounds4all.bondsmanager.services.OrderService;
 import io.bounds4all.bondsmanager.services.UserService;
@@ -30,7 +28,7 @@ public class OrderController {
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/api/order", headers = "Authorization")
-    public List <OrderDto> getOrders (@RequestHeader("Authorization") String token) throws Exception {
+    public List <OrderDto> getOrders (@RequestHeader("Authorization") String token) {
 
         User user = userService.findByToken(token);
 

@@ -6,7 +6,6 @@ import io.bounds4all.bondsmanager.model.Emission;
 import io.bounds4all.bondsmanager.model.Order;
 import io.bounds4all.bondsmanager.model.User;
 import io.bounds4all.bondsmanager.repositories.BondRepository;
-import io.bounds4all.bondsmanager.repositories.EmissionRepository;
 import io.bounds4all.bondsmanager.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +37,8 @@ public class OrderConditionCheck {
 
     public boolean timeCheck(OrderDto order, Emission emission)  {
         LocalTime time = LocalTime.now();
-        if (time.isAfter(LocalTime.of(20,00)) && time.isBefore(LocalTime.of(06, 00))) {
-            if (order.getAmount()* emission.getUnitValue() > emission.getMaxUncontrolledPurchase()){
-                return false;
-            }
+        if (time.isAfter(LocalTime.of(20, 0)) && time.isBefore(LocalTime.of(6, 0))) {
+            return !(order.getAmount() * emission.getUnitValue() > emission.getMaxUncontrolledPurchase());
         }
         return true;
     }

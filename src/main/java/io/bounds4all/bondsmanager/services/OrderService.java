@@ -3,7 +3,6 @@ package io.bounds4all.bondsmanager.services;
 import io.bounds4all.bondsmanager.dtos.OrderDto;
 import io.bounds4all.bondsmanager.model.*;
 import io.bounds4all.bondsmanager.repositories.BondRepository;
-import io.bounds4all.bondsmanager.repositories.EmissionRepository;
 import io.bounds4all.bondsmanager.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
