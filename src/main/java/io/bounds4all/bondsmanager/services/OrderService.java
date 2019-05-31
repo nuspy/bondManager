@@ -12,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -67,6 +65,8 @@ public class OrderService {
             bondHistories.add(bondHistory);
             bondHistory.setCoupon(responseOrderDto.getCoupon());
             bondHistory.setTermEndDate(LocalDateTime.now());
+            bondHistory.setInsertDate(Calendar.getInstance().getTime());
+            bondHistory.setTermLenghtMonts(order.getMonthsLenght());
             b.setBondHistory(bondHistories);
             purchasedBonds.add(b);
         }
@@ -109,6 +109,7 @@ public class OrderService {
         newBondHistory.setInsertDate(Calendar.getInstance().getTime());
         newBondHistory.setCoupon(offerService.calculateInitialCoupon(order, lastBond.getBond().getEmission()).getCoupon());
         newBondHistory.setTermEndDate(lastBond.getBond().getOrder().getPurchaseDateTime().plusMonths(order.getMonthsLenght()));
+        newBondHistory.setTermLenghtMonts(order.getMonthsLenght());
 
         bondHistoryRepository.save(newBondHistory);
         assert (bond.getBondHistory().contains(newBondHistory));

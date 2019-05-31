@@ -29,4 +29,6 @@ public class BondHistory {
     @Column(nullable = false)
     private LocalDateTime termEndDate;
 
+    @Column
+    private int termLenghtMonts;
 }
