@@ -79,7 +79,10 @@ public class OrderService {
         newOrder.setUser(user);
         newOrder.setPurchaseDateTime(LocalDateTime.now());
         newOrder.setBonds(purchasedBonds);
-
+        newOrder.setEmission(emission);
+        newOrder.setAmount(order.getAmount());
+        newOrder.setInitialCoupon(responseOrderDto.getCoupon());
+        newOrder.setInitialMonthsLenght(order.getMonthsLenght());
 
         newOrder =  orderRepository.save(newOrder);
 
