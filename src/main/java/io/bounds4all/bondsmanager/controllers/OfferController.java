@@ -5,6 +5,8 @@ import io.bounds4all.bondsmanager.services.OfferService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,14 +24,22 @@ public class OfferController {
             response = OrderDto.class
     )
     @RequestMapping(method= RequestMethod.POST, value="/api/offer")
-    public OrderDto getOffer(@RequestBody OrderDto order) throws Exception {
-        OrderDto response = offerService.calculateOffer(order);
-        return response;
+    public ResponseEntity<?> getOffer(@RequestBody OrderDto order) throws Exception {
+        try {
+            OrderDto response = offerService.calculateOffer(order);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return new ResponseEntity<Exception>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @ApiOperation(value = "Get the amount of bonds available. Parameters to be included: emission(id)" )
     @RequestMapping(method= RequestMethod.GET, value="/api/offer")
-    public int getAvailableBondQuantity(long emissionId){
-        return offerService.getAvailableBondQuantity(emissionId);
+    public ResponseEntity<?> getAvailableBondQuantity(long emissionId) {
+        try {
+            return ResponseEntity.ok(offerService.getAvailableBondQuantity(emissionId));
+        } catch (Exception e) {
+            return new ResponseEntity<Exception>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

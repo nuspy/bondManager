@@ -8,6 +8,8 @@ import io.bounds4all.bondsmanager.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,30 +27,43 @@ public class OrderController {
             response = OrderDto.class
     )
     @RequestMapping(method= RequestMethod.POST, value="/api/order/", headers = "Authorization")
-    public OrderDto makeOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<?> makeOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String token) throws Exception {
 
         User user = userService.findByToken(token);
 
-        OrderDto response = orderService.putOrder(order, user);
-        return response;
+        try {
+            OrderDto response = orderService.putOrder(order, user);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return new ResponseEntity<Exception>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @ApiOperation(value = "Get all the bonds for the User.")
     @RequestMapping(method= RequestMethod.GET, value="/api/order/getList", headers = "Authorization")
-    public List <OrderDto> getOrders (@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getOrders(@RequestHeader("Authorization") String token) {
 
         User user = userService.findByToken(token);
 
-        List <OrderDto> response = orderService.getAllOrdersForUser(user);
-        return response;
+        try {
+            List<OrderDto> response = orderService.getAllOrdersForUser(user);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return new ResponseEntity<Exception>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @ApiOperation(value = "Vhange the term for a List of bonds and recalculate the coupons." )
     @RequestMapping(method= RequestMethod.PUT, value="/api/order/changeBondTerm", headers = "Authorization")
-    public List<Bond> changeBondTerm(@RequestHeader("Authorization") String token, @RequestBody OrderDto order) throws Exception {
+    public ResponseEntity<?> changeBondTerm(@RequestHeader("Authorization") String token, @RequestBody OrderDto order) throws Exception {
 
         User user = userService.findByToken(token);
-        List<Bond> response = orderService.changeBondTerm(order, user);
-        return response;
+        try {
+            List<Bond> response = orderService.changeBondTerm(order, user);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return new ResponseEntity<Exception>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
