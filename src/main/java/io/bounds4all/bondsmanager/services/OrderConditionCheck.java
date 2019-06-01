@@ -1,6 +1,6 @@
 package io.bounds4all.bondsmanager.services;
 
-import io.bounds4all.bondsmanager.dtos.OrderDto;
+import io.bounds4all.bondsmanager.dtos.OrderRequestDto;
 import io.bounds4all.bondsmanager.model.Bond;
 import io.bounds4all.bondsmanager.model.Emission;
 import io.bounds4all.bondsmanager.model.Order;
@@ -23,7 +23,7 @@ public class OrderConditionCheck {
     @Autowired
     OrderRepository orderRepository;
 
-    boolean getAvailability(OrderDto order, Emission emission) {
+    boolean getAvailability(OrderRequestDto order, Emission emission) {
         List <Bond> bondOnEmission = bondRepository.findByEmission(emission);
         //int totalBoundsForEmission = emission.getEmittedBonds().size();
         //int assignedBounds = bondOnEmission.stream().mapToInt(x -> x.getBonds().size()).sum();
@@ -31,18 +31,19 @@ public class OrderConditionCheck {
         return order.getAmount() <= bondOnEmission.size() - assignedBounds;
     }
 
-    public boolean minimalTermCheck(OrderDto order, Emission emission) {
+    public boolean minimalTermCheck(OrderRequestDto order, Emission emission) {
         return order.getMonthsLenght()>= emission.getMinTerm();
     }
 
-    public boolean timeCheck(OrderDto order, Emission emission)  {
+    public boolean timeCheck(OrderRequestDto order, Emission emission) {
         LocalTime time = LocalTime.now();
         if (time.isAfter(LocalTime.of(20, 0)) && time.isBefore(LocalTime.of(6, 0))) {
             return !(order.getAmount() * emission.getUnitValue() > emission.getMaxUncontrolledPurchase());
         }
         return true;
     }
-    public boolean dailyLimitCheck(OrderDto order, Emission emission, User user)  {
+
+    public boolean dailyLimitCheck(OrderRequestDto order, Emission emission, User user) {
         List <Order> ordersPerUser = orderRepository.findByUser( user);
         int totalDailyOrderPerUser = 0;
         for (Order o : ordersPerUser){

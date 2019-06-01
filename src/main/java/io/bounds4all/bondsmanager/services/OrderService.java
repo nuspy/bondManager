@@ -1,6 +1,8 @@
 package io.bounds4all.bondsmanager.services;
 
+import io.bounds4all.bondsmanager.dtos.BondModificationRequestDto;
 import io.bounds4all.bondsmanager.dtos.OrderDto;
+import io.bounds4all.bondsmanager.dtos.OrderRequestDto;
 import io.bounds4all.bondsmanager.model.*;
 import io.bounds4all.bondsmanager.repositories.BondHistoryRepository;
 import io.bounds4all.bondsmanager.repositories.BondRepository;
@@ -37,7 +39,7 @@ public class OrderService {
     BondHistoryRepository bondHistoryRepository;
 
     @Transactional
-    public OrderDto putOrder(OrderDto order, User user) throws Exception {
+    public OrderDto putOrder(OrderRequestDto order, User user) throws Exception {
         Emission emission = offerService.checkOffer(order);
         if (!orderConditionCheck.dailyLimitCheck(order, emission, user)) {
             throw new Exception("The order exceed the maximum daily amount of bond");
@@ -99,9 +101,9 @@ public class OrderService {
         return result;
     }
 
-    public List<Bond> changeBondTerm(OrderDto order, User user) throws Exception {
+    public List<Bond> changeBondTerm(BondModificationRequestDto bondModification, User user) throws Exception {
 
-        List<Bond> bondsToModify = bondRepository.findAllByIdIn(order.getBondToModify());
+        List<Bond> bondsToModify = bondRepository.findAllByIdIn(bondModification.getBondToModify());
 
         for (Bond bond : bondsToModify) {
             if (!bond.getOrder().getUser().equals(user)) {
@@ -113,9 +115,9 @@ public class OrderService {
             BondHistory newBondHistory = new BondHistory();
             newBondHistory.setBond(lastBond.getBond());
             newBondHistory.setInsertDate(Calendar.getInstance().getTime());
-            newBondHistory.setCoupon(offerService.calculateInitialCoupon(order, lastBond.getBond().getEmission()).getCoupon());
-            newBondHistory.setTermEndDate(lastBond.getBond().getOrder().getPurchaseDateTime().plusMonths(order.getMonthsLenght()));
-            newBondHistory.setTermLenghtMonts(order.getMonthsLenght());
+            newBondHistory.setCoupon(offerService.calculateCoupon(bondModification.getMonthsLenght(), lastBond.getBond().getEmission()));
+            newBondHistory.setTermEndDate(lastBond.getBond().getOrder().getPurchaseDateTime().plusMonths(bondModification.getMonthsLenght()));
+            newBondHistory.setTermLenghtMonts(bondModification.getMonthsLenght());
 
             bondHistoryRepository.save(newBondHistory);
             assert (bond.getBondHistory().contains(newBondHistory));

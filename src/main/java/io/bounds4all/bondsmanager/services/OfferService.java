@@ -1,6 +1,7 @@
 package io.bounds4all.bondsmanager.services;
 
 import io.bounds4all.bondsmanager.dtos.OrderDto;
+import io.bounds4all.bondsmanager.dtos.OrderRequestDto;
 import io.bounds4all.bondsmanager.model.Emission;
 import io.bounds4all.bondsmanager.repositories.BondRepository;
 import io.bounds4all.bondsmanager.repositories.EmissionRepository;
@@ -19,14 +20,14 @@ public class OfferService {
     @Autowired
     BondRepository bondRepository;
 
-    public OrderDto calculateOffer(OrderDto order) throws Exception {
+    public OrderDto calculateOffer(OrderRequestDto order) throws Exception {
 
         Emission emission = checkOffer(order);
         OrderDto responseOrderDto = calculateInitialCoupon(order, emission);
         return responseOrderDto;
     }
 
-    public Emission checkOffer(OrderDto order) throws Exception {
+    public Emission checkOffer(OrderRequestDto order) throws Exception {
         Emission emission = emissionRepository.getOne(order.getEmission().getId());
         if (!orderConditionCheck.getAvailability(order, emission)) {
             throw new Exception("Amount not available");
@@ -37,20 +38,20 @@ public class OfferService {
         return emission;
     }
 
-    public OrderDto calculateInitialCoupon(OrderDto order, Emission emission) {
+    public OrderDto calculateInitialCoupon(OrderRequestDto order, Emission emission) {
         OrderDto response = new OrderDto();
         response.setAmount(order.getAmount());
         response.setEmission(order.getEmission());
         response.setMonthsLenght(order.getMonthsLenght());
-        response.setCoupon(calculateCoupon(order, emission));
+        response.setCoupon(calculateCoupon(order.getMonthsLenght(), emission));
         return response;
     }
 
-    private double calculateCoupon(OrderDto order, Emission emission) {
+    public double calculateCoupon(int monthLenght, Emission emission) {
         double coupon = emission.getDefaultCoupon();
-        if (order.getMonthsLenght()>emission.getMinTerm()){
+        if (monthLenght > emission.getMinTerm()) {
             // out of specification: to make coherent with logic of already purchased bond term change
-            coupon = coupon - ((order.getMonthsLenght() - (double)emission.getMinTerm())/10/12);
+            coupon = coupon - ((monthLenght - (double) emission.getMinTerm()) / 10 / 12);
         }
         if (coupon < 0) {
             coupon = 0;

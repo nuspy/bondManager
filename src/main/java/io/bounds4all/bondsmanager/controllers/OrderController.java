@@ -1,6 +1,8 @@
 package io.bounds4all.bondsmanager.controllers;
 
+import io.bounds4all.bondsmanager.dtos.BondModificationRequestDto;
 import io.bounds4all.bondsmanager.dtos.OrderDto;
+import io.bounds4all.bondsmanager.dtos.OrderRequestDto;
 import io.bounds4all.bondsmanager.model.Bond;
 import io.bounds4all.bondsmanager.model.User;
 import io.bounds4all.bondsmanager.services.OrderService;
@@ -27,7 +29,7 @@ public class OrderController {
             response = OrderDto.class
     )
     @RequestMapping(method= RequestMethod.POST, value="/api/order/", headers = "Authorization")
-    public ResponseEntity<?> makeOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<?> makeOrder(@RequestBody OrderRequestDto order, @RequestHeader("Authorization") String token) throws Exception {
 
         User user = userService.findByToken(token);
 
@@ -55,11 +57,11 @@ public class OrderController {
     }
     @ApiOperation(value = "Vhange the term for a List of bonds and recalculate the coupons." )
     @RequestMapping(method= RequestMethod.PUT, value="/api/order/changeBondTerm", headers = "Authorization")
-    public ResponseEntity<?> changeBondTerm(@RequestHeader("Authorization") String token, @RequestBody OrderDto order) throws Exception {
+    public ResponseEntity<?> changeBondTerm(@RequestHeader("Authorization") String token, @RequestBody BondModificationRequestDto bondModification) throws Exception {
 
         User user = userService.findByToken(token);
         try {
-            List<Bond> response = orderService.changeBondTerm(order, user);
+            List<Bond> response = orderService.changeBondTerm(bondModification, user);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return new ResponseEntity<Exception>(e, HttpStatus.INTERNAL_SERVER_ERROR);

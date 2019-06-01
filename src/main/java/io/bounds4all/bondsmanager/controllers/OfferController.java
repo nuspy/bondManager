@@ -1,6 +1,7 @@
 package io.bounds4all.bondsmanager.controllers;
 
 import io.bounds4all.bondsmanager.dtos.OrderDto;
+import io.bounds4all.bondsmanager.dtos.OrderRequestDto;
 import io.bounds4all.bondsmanager.services.OfferService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +25,7 @@ public class OfferController {
             response = OrderDto.class
     )
     @RequestMapping(method= RequestMethod.POST, value="/api/offer")
-    public ResponseEntity<?> getOffer(@RequestBody OrderDto order) throws Exception {
+    public ResponseEntity<?> getOffer(@RequestBody OrderRequestDto order) throws Exception {
         try {
             OrderDto response = offerService.calculateOffer(order);
             return ResponseEntity.ok(response);
