@@ -1,13 +1,12 @@
 package io.bounds4all.bondsmanager.dtos;
 
-import io.bounds4all.bondsmanager.model.Emission;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 public class OrderRequestDto {
     @ApiModelProperty(value = "The emission of bonds")
-    private Emission emission;
+    private long emission;
     @ApiModelProperty(value = "The amount of bounds for order")
     private int amount;
     @ApiModelProperty(value = "The amount of order")

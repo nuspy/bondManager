@@ -28,7 +28,7 @@ public class OfferService {
     }
 
     public Emission checkOffer(OrderRequestDto order) throws Exception {
-        Emission emission = emissionRepository.getOne(order.getEmission().getId());
+        Emission emission = emissionRepository.getOne(order.getEmission());
         if (!orderConditionCheck.getAvailability(order, emission)) {
             throw new Exception("Amount not available");
         }
@@ -40,8 +40,9 @@ public class OfferService {
 
     public OrderDto calculateInitialCoupon(OrderRequestDto order, Emission emission) {
         OrderDto response = new OrderDto();
+        Emission orderEmission = emissionRepository.getOne(order.getEmission());
         response.setAmount(order.getAmount());
-        response.setEmission(order.getEmission());
+        response.setEmission(orderEmission);
         response.setMonthsLenght(order.getMonthsLenght());
         response.setCoupon(calculateCoupon(order.getMonthsLenght(), emission));
         return response;
