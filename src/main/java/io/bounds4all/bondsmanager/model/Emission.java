@@ -1,5 +1,6 @@
 package io.bounds4all.bondsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,7 @@ public class Emission {
     private Date emissionDate;
 
     @OneToMany(mappedBy = "emission",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Bond> emittedBonds;
 
     @Column

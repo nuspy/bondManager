@@ -30,6 +30,21 @@ public class Order {
     private List <Bond> bonds;
 
     @Column
+    private double initialCoupon;
+
+    @Column
+    private int initialMonthsLenght;
+
+    @Column
+    private int value;
+
+    @ManyToOne
+    private Emission emission;
+
+    @Column
+    private int amount;
+
+    @Column
     private String notes;
 
     @Column
